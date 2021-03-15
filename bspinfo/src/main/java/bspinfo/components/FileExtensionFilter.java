@@ -4,11 +4,7 @@ import java.io.*;
 import javax.swing.filechooser.*;
 import javax.swing.filechooser.FileFilter;
 
-/**
- *
- * @author Nico Bergemann <barracuda415 at yahoo.de>
- */
-public class FileExtensionFilter extends FileFilter {
+public final class FileExtensionFilter extends FileFilter {
 
     private final FileNameExtensionFilter parent;
 

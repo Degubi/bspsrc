@@ -3,21 +3,15 @@ package bspinfo.components;
 import java.awt.event.*;
 import javax.swing.*;
 
-/**
- *
- * @author Nico Bergemann <barracuda415 at yahoo.de>
- */
-public class ReadOnlyCheckBox extends JCheckBox {
+public final class ReadOnlyCheckBox extends JCheckBox {
 
-    public ReadOnlyCheckBox() {
-        super();
+    public ReadOnlyCheckBox(String text) {
+        super(text);
     }
 
     @Override
-    protected void processKeyEvent(KeyEvent e) {
-    }
+    protected void processKeyEvent(KeyEvent e) {}
 
     @Override
-    protected void processMouseEvent(MouseEvent e) {
-    }
+    protected void processMouseEvent(MouseEvent e) {}
 }

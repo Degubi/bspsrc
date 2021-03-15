@@ -8,13 +8,13 @@ import java.net.*;
 import java.util.logging.*;
 import javax.swing.*;
 
-public class URILabel extends JLabel {
+public final class URILabel extends JLabel {
 
     private static final Logger L = LogUtils.getLogger();
     private URI uri;
 
     public URILabel() {
-        super();
+        super(" ");
         setCursor(new Cursor(Cursor.HAND_CURSOR));
         addMouseListener(new URLOpenAdapter());
     }
@@ -33,7 +33,7 @@ public class URILabel extends JLabel {
         }
     }
 
-    private class URLOpenAdapter extends MouseAdapter {
+    private final class URLOpenAdapter extends MouseAdapter {
 
         @Override
         public void mouseClicked(MouseEvent e) {

@@ -1,22 +1,13 @@
-package bspinfo.components;
+package bspinfo.components.renderer;
 
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.*;
 import org.apache.commons.io.*;
 
-/**
- *
- * @author Nico Bergemann <barracuda415 at yahoo.de>
- */
-public class ByteSizeCellRenderer extends DefaultTableCellRenderer {
+public final class ByteSizeCellRenderer extends DefaultTableCellRenderer {
 
-    private boolean si;
-
-    public ByteSizeCellRenderer(boolean si) {
-        this.si = si;
-    }
-
+    @SuppressWarnings("boxing")
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         if (value instanceof Long) {
@@ -25,7 +16,7 @@ public class ByteSizeCellRenderer extends DefaultTableCellRenderer {
             value = FileUtils.byteCountToDisplaySize((Integer) value);
         }
 
-        JLabel c = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        var c = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         c.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         return c;
     }

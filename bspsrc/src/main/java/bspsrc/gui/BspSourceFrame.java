@@ -360,7 +360,7 @@ public class BspSourceFrame extends javax.swing.JFrame {
 
         // instant awesome, just add icons!
         try {
-            URL iconUrl = getClass().getResource("resources/icon.png");
+            URL iconUrl = getClass().getResource("icon.png");
             Image icon = Toolkit.getDefaultToolkit().createImage(iconUrl);
             setIconImage(icon);
             logFrame.setIconImage(icon);
