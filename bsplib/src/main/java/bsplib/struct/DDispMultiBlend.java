@@ -28,8 +28,8 @@ public class DDispMultiBlend implements DStruct {
 
     @Override
     public void read(DataReader in) throws IOException {
-        multiblend = Vector4f.read(in);
-        alphablend = Vector4f.read(in);
+        multiblend = new Vector4f(in.readFloat(), in.readFloat(), in.readFloat(), in.readFloat());
+        alphablend = new Vector4f(in.readFloat(), in.readFloat(), in.readFloat(), in.readFloat());
 
         for (int i = 0; i < MAX_MULTIBLEND_CHANNELS; i++) {
             multiblendcolors[i] = Vector3f.read(in);
@@ -38,8 +38,15 @@ public class DDispMultiBlend implements DStruct {
 
     @Override
     public void write(DataWriter out) throws IOException {
-        Vector4f.write(out, multiblend);
-        Vector4f.write(out, alphablend);
+        out.writeFloat(multiblend.x);
+        out.writeFloat(multiblend.y);
+        out.writeFloat(multiblend.z);
+        out.writeFloat(multiblend.w);
+
+        out.writeFloat(alphablend.x);
+        out.writeFloat(alphablend.y);
+        out.writeFloat(alphablend.z);
+        out.writeFloat(alphablend.w);
 
         for (int i = 0; i < MAX_MULTIBLEND_CHANNELS; i++) {
             Vector3f.write(out, multiblendcolors[i]);

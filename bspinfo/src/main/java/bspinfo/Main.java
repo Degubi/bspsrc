@@ -3,6 +3,7 @@ package bspinfo;
 import bspinfo.components.*;
 import bspinfo.components.renderer.*;
 import bspinfo.components.table.*;
+import bspinfo.log.*;
 import bsplib.*;
 import bsplib.entity.*;
 import bsplib.log.*;
@@ -107,7 +108,7 @@ public final class Main {
 
         LOGGER.addHandler(new DialogHandler(frame));
         FileDrop.attach(frame, files -> {
-            if(new BspFileFilter().accept(files[0])) {
+            if(files[0].getName().endsWith(".bsp")) {
                 loadFile(files[0]);
             }});
     }

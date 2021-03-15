@@ -9,12 +9,7 @@ import java.text.*;
 import java.util.*;
 import java.util.logging.*;
 
-/**
- * Class to write formatted VMF files.
- *
- * @author Nico Bergemann <barracuda415 at yahoo.de>
- */
-public class VmfWriter implements Closeable {
+public class VmfWriter implements AutoCloseable {
 
     private static final Logger L = LogUtils.getLogger();
 

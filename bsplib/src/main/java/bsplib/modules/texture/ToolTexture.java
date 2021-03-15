@@ -1,14 +1,6 @@
 package bsplib.modules.texture;
 
-/**
- * Enumeration of (mostly) game-independent tool textures.
- *
- * @author Nico Bergemann <barracuda415 at yahoo.de>
- */
 public final class ToolTexture {
-
-    private ToolTexture() {
-    }
 
     public static final String EMPTY = null;
     public static final String NODRAW = "tools/toolsnodraw";
@@ -32,4 +24,6 @@ public final class ToolTexture {
     //CSGO Only
     public static final String CSGO_GRENADECLIP = "tools/toolsgrenadeclip";
     public static final String CSGO_DRONECLIP = "tools/toolsdroneclip";
+
+    private ToolTexture() {}
 }

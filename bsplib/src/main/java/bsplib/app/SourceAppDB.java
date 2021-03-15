@@ -6,13 +6,7 @@ import java.util.*;
 import java.util.logging.*;
 import javax.xml.parsers.*;
 
-/**
- * Source engine application database handler.
- *
- * @author Nico Bergemann <barracuda415 at yahoo.de>
- */
-public class SourceAppDB {
-
+public final class SourceAppDB {
     private static final Logger L = LogUtils.getLogger();
     private static SourceAppDB instance;
 

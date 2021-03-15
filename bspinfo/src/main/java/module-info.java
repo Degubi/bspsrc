@@ -1,7 +1,6 @@
 module com.bspinfo {
     requires com.bsplib;
 
-    requires commons.cli;
     requires java.desktop;
     requires java.logging;
     requires org.apache.commons.compress;

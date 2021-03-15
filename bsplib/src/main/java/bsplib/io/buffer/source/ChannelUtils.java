@@ -1,4 +1,4 @@
-package bsplib.io.channel;
+package bsplib.io.buffer.source;
 
 import bsplib.io.buffer.*;
 import java.io.*;

@@ -2,12 +2,7 @@ package bsplib.modules.texture;
 
 import bsplib.struct.*;
 
-/**
- * A simple texture data structure.
- *
- * @author Nico Bergemann <barracuda415 at yahoo.de>
- */
-public class Texture {
+public final class Texture {
 
     private DTexData data;
     private String texture;

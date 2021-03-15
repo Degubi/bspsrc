@@ -14,12 +14,14 @@ import org.apache.commons.io.input.*;
  * @author Nico Bergemann <barracuda415 at yahoo.de>
  */
 public class EntityInputStream extends CountingInputStream {
-
     private static final Logger L = LogUtils.getLogger();
-    private boolean allowEsc = false;
 
-    public EntityInputStream(InputStream in) {
+    private final boolean allowEsc;
+
+    public EntityInputStream(InputStream in, boolean allowEsc) {
         super(in);
+
+        this.allowEsc = allowEsc;
     }
 
     public Entity readEntity() throws IOException {
@@ -114,13 +116,5 @@ public class EntityInputStream extends CountingInputStream {
         }
 
         return null;
-    }
-
-    public boolean isAllowEscSeq() {
-        return allowEsc;
-    }
-
-    public void setAllowEscSeq(boolean allowEsc) {
-        this.allowEsc = allowEsc;
     }
 }

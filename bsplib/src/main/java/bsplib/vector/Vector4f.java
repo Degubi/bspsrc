@@ -1,119 +1,20 @@
 package bsplib.vector;
 
-import bsplib.io.*;
-import java.io.*;
-
-/**
- * An immutable fluent interface four-dimensional vector class for float values.
- *
- * @author Sandern
- */
-public final class Vector4f extends VectorXf {
-
-    public static Vector4f read(DataReader in) throws IOException {
-        float x = in.readFloat();
-        float y = in.readFloat();
-        float z = in.readFloat();
-        float w = in.readFloat();
-        return new Vector4f(x, y, z, w);
-    }
-
-    public static void write(DataWriter out, Vector4f vec) throws IOException {
-        out.writeFloat(vec.x);
-        out.writeFloat(vec.y);
-        out.writeFloat(vec.z);
-        out.writeFloat(vec.w);
-    }
-
-    // frequently used pre-defined vectors
+public final class Vector4f {
     public static final Vector4f NULL = new Vector4f(0, 0, 0, 0);
     public static final Vector4f MAX_VALUE = new Vector4f(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE);
-    public static final Vector4f MIN_VALUE = MAX_VALUE.scalar(-1); // don't use Float.MIN_VALUE here
+    public static final Vector4f MIN_VALUE = MAX_VALUE.scalar(-1);
 
-    // vector values
     public final float x;
     public final float y;
     public final float z;
     public final float w;
 
-    /**
-     * Replicating contructor
-     * Constructs new Vector4f by copying an existing Vector4f
-     *
-     * @param v The Vector4f to copy
-     */
-    public Vector4f(Vector4f v) {
-        this(v.x, v.y, v.z, v.w);
-    }
-
-    /**
-     * Constructs a new Vector4f using the values out of an array.
-     * The array must have a size of at least 3.
-     *
-     * @param v float array
-     */
-    public Vector4f(float[] v) {
-        this(v[0], v[1], v[2], v[3]);
-    }
-
-    /**
-     * Constructs a new Vector4f from x, y and z components
-     *
-     * @param x the vector x component
-     * @param y the vector y component
-     * @param z the vector z component
-     */
     public Vector4f(float x, float y, float z, float w) {
-        super(4);
         this.x = x;
         this.y = y;
         this.z = z;
         this.w = w;
-    }
-
-    /**
-     * Returns the value of the n'th component.
-     *
-     * @param index component number
-     * @return component value
-     */
-    @Override
-    public float get(int index) {
-        switch (index) {
-            case 0:
-                return this.x;
-            case 1:
-                return this.y;
-            case 2:
-                return this.z;
-            case 3:
-                return this.w;
-            default:
-                return 0;
-        }
-    }
-
-    /**
-     * Set the value of the n'th component.
-     *
-     * @param index component number
-     * @param value new component value
-     * @return vector with new value
-     */
-    @Override
-    public Vector4f set(int index, float value) {
-        switch (index) {
-            case 0:
-                return new Vector4f(value, y, z, w);
-            case 1:
-                return new Vector4f(x, value, z, w);
-            case 2:
-                return new Vector4f(x, y, value, w);
-            case 3:
-                return new Vector4f(x, y, z, value);
-            default:
-                return this;
-        }
     }
 
     /**
@@ -133,13 +34,8 @@ public final class Vector4f extends VectorXf {
      * @return the normalised vector
      */
     public Vector4f normalize() {
-        float len = length();
-        float rx = x / len;
-        float ry = y / len;
-        float rz = z / len;
-        float rw = w / len;
-
-        return new Vector4f(rx, ry, rz, rw);
+        var len = length();
+        return new Vector4f(x / len, y / len, z / len, w / len);
     }
 
     /**
@@ -149,12 +45,7 @@ public final class Vector4f extends VectorXf {
      * @return The sum of the two vectors
      */
     public Vector4f add(Vector4f that) {
-        float rx = this.x + that.x;
-        float ry = this.y + that.y;
-        float rz = this.z + that.z;
-        float rw = this.w + that.w;
-
-        return new Vector4f(rx, ry, rz, rw);
+        return new Vector4f(this.x + that.x, this.y + that.y, this.z + that.z, this.w + that.w);
     }
 
     /**
@@ -164,12 +55,7 @@ public final class Vector4f extends VectorXf {
      * @return The difference of the two vectors
      */
     public Vector4f sub(Vector4f that) {
-        float rx = this.x - that.x;
-        float ry = this.y - that.y;
-        float rz = this.z - that.z;
-        float rw = this.w - that.w;
-
-        return new Vector4f(rx, ry, rz, rw);
+        return new Vector4f(this.x - that.x, this.y - that.y, this.z - that.z, this.w - that.w);
     }
 
     /**
@@ -179,12 +65,7 @@ public final class Vector4f extends VectorXf {
      * @return This vector snapped to the nearest values of 'value'
      */
     public Vector4f snap(float value) {
-        float rx = Math.round(x / value) * value;
-        float ry = Math.round(y / value) * value;
-        float rz = Math.round(z / value) * value;
-        float rw = Math.round(w / value) * value;
-
-        return new Vector4f(rx, ry, rz, rw);
+        return new Vector4f(Math.round(x / value) * value, Math.round(y / value) * value, Math.round(z / value) * value, Math.round(w / value) * value);
     }
 
     /**
@@ -203,12 +84,7 @@ public final class Vector4f extends VectorXf {
      * @return scalar multiplied vector
      */
     public Vector4f scalar(float mul) {
-        float rx = this.x * mul;
-        float ry = this.y * mul;
-        float rz = this.z * mul;
-        float rw = this.w * mul;
-
-        return new Vector4f(rx, ry, rz, rw);
+        return new Vector4f(this.x * mul, this.y * mul, this.z * mul, this.w * mul);
     }
 
     /**
@@ -218,12 +94,7 @@ public final class Vector4f extends VectorXf {
      * @return scalar multiplied vector
      */
     public Vector4f scalar(Vector4f that) {
-        float rx = this.x * that.x;
-        float ry = this.y * that.y;
-        float rz = this.z * that.z;
-        float rw = this.w * that.w;
-
-        return new Vector4f(rx, ry, rz, rw);
+        return new Vector4f(this.x * that.x, this.y * that.y, this.z * that.z, this.w * that.w);
     }
 
     /**
@@ -233,12 +104,7 @@ public final class Vector4f extends VectorXf {
      * @return minima of this and that vector
      */
     public Vector4f min(Vector4f that) {
-        float rx = Math.min(this.x, that.x);
-        float ry = Math.min(this.y, that.y);
-        float rz = Math.min(this.z, that.z);
-        float rw = Math.min(this.w, that.w);
-
-        return new Vector4f(rx, ry, rz, rw);
+        return new Vector4f(Math.min(this.x, that.x), Math.min(this.y, that.y), Math.min(this.z, that.z), Math.min(this.w, that.w));
     }
 
     /**
@@ -248,11 +114,6 @@ public final class Vector4f extends VectorXf {
      * @return maxima of this and that vector
      */
     public Vector4f max(Vector4f that) {
-        float rx = Math.max(this.x, that.x);
-        float ry = Math.max(this.y, that.y);
-        float rz = Math.max(this.z, that.z);
-        float rw = Math.max(this.w, that.w);
-
-        return new Vector4f(rx, ry, rz, rw);
+        return new Vector4f(Math.max(this.x, that.x), Math.max(this.y, that.y), Math.max(this.z, that.z), Math.max(this.w, that.w));
     }
 }

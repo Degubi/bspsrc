@@ -1,12 +1,5 @@
 package bsplib.modules.geom;
 
-import bsplib.util.*;
-
-/**
- * Enumeration for brush modes.
- *
- * @author Nico Bergemann <barracuda415 at yahoo.de>
- */
 public enum BrushMode {
 
     BRUSHPLANES("Brushes and planes"),
@@ -18,10 +11,6 @@ public enum BrushMode {
 
     BrushMode(String name) {
         this.name = name;
-    }
-
-    public static BrushMode fromOrdinal(int index) {
-        return EnumConverter.fromOrdinal(BrushMode.class, index);
     }
 
     @Override

@@ -6,13 +6,7 @@ import java.util.*;
 import java.util.logging.*;
 import java.util.regex.*;
 
-/**
- * Source engine application identifier.
- *
- * @author Nico Bergemann <barracuda415 at yahoo.de>
- */
-public class SourceApp {
-
+public final class SourceApp {
     private static final Logger L = LogUtils.getLogger();
     public static final SourceApp UNKNOWN = new SourceApp("Unknown", SourceAppID.UNKNOWN);
 

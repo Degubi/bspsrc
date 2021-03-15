@@ -37,7 +37,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>info.ata4.bspsrc.gui.BspSourceFrame</mainClass>
+                            <mainClass>bspinfo.Main</mainClass>
                             <addClasspath>true</addClasspath>
                         </manifest>
                     </archive>

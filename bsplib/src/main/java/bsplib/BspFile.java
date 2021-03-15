@@ -4,7 +4,7 @@ import static bsplib.app.SourceAppID.*;
 
 import bsplib.app.*;
 import bsplib.io.*;
-import bsplib.io.Seekable.*;
+import bsplib.io.DataBridge.*;
 import bsplib.io.buffer.*;
 import bsplib.io.util.*;
 import bsplib.log.*;
@@ -17,14 +17,7 @@ import java.util.*;
 import java.util.logging.*;
 import org.apache.commons.io.*;
 
-/**
- * Low-level BSP file class for header and lump access.
- *
- * @author Nico Bergemann <barracuda415 at yahoo.de>
- */
-public class BspFile {
-
-    // logger
+public final class BspFile {
     private static final Logger L = LogUtils.getLogger();
 
     // big-endian Valve ident
@@ -64,19 +57,11 @@ public class BspFile {
     }
 
     public BspFile(Path file, boolean memMapping) throws IOException {
-        loadImpl(file, memMapping);
+        load(file, memMapping);
     }
 
     public BspFile(Path file) throws IOException {
-        loadImpl(file);
-    }
-
-    private void loadImpl(Path file) throws IOException {
         load(file);
-    }
-
-    private void loadImpl(Path file, boolean memMapping) throws IOException {
-        load(file, memMapping);
     }
 
     /**
@@ -189,7 +174,7 @@ public class BspFile {
      * @throws IOException if the buffer couldn't be created
      * @throws BspException if the header or file format is invalid
      */
-    private ByteBuffer createBuffer(boolean memMapping) throws IOException, BspException {
+    private ByteBuffer createBuffer(boolean memMapping) throws IOException {
         ByteBuffer bb;
 
         if (memMapping) {
@@ -200,7 +185,7 @@ public class BspFile {
 
         // make sure we have enough room for reading
         if (bb.capacity() < HEADER_SIZE) {
-            throw new BspException("Invalid or missing header");
+            throw new IOException("Invalid or missing header");
         }
 
         int ident = bb.getInt();
@@ -228,7 +213,7 @@ public class BspFile {
 
         if (ident == 0x1E) {
             // No GoldSrc! Please!
-            throw new BspException("The GoldSrc format is not supported");
+            throw new IOException("The GoldSrc format is not supported");
         }
 
         // check for XOR encryption
@@ -262,8 +247,7 @@ public class BspFile {
             return bb;
         }
 
-        throw new BspException("Unknown file ident: " + ident + " (" +
-                StringMacroUtils.unmakeID(ident) + ")");
+        throw new IOException("Unknown file ident: " + ident + " (" + StringMacroUtils.unmakeID(ident) + ")");
     }
 
     private void loadLumps(ByteBuffer bb) {
@@ -919,7 +903,7 @@ public class BspFile {
      *
      * @param version new BSP version
      */
-    public void setVersion(int version) throws BspException {
+    public void setVersion(int version) {
         this.version = version;
     }
 

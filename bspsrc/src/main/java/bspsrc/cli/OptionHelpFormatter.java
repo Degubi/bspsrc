@@ -3,15 +3,8 @@ package bspsrc.cli;
 import java.io.*;
 import org.apache.commons.cli.*;
 
-/**
- *
- * @author Nico Bergemann <barracuda415 at yahoo.de>
- */
-public class OptionHelpFormatter extends HelpFormatter {
-
-    public void printHelp(PrintWriter pw, int width,
-            String header, Options options, int leftPad,
-            int descPad, String footer) {
+public final class OptionHelpFormatter extends HelpFormatter {
+    public void printHelp(PrintWriter pw, int width, String header, Options options, int leftPad, int descPad, String footer) {
         if ((header != null) && (header.trim().length() > 0)) {
             printWrapped(pw, width, header);
         }

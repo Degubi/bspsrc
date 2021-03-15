@@ -42,7 +42,10 @@ public class DDispInfoBSP17 extends DDispInfo {
 
     @Override
     public void write(DataWriter out) throws IOException {
-        Vector3f.write(out, startPos);
+        out.writeFloat(startPos.x);
+        out.writeFloat(startPos.y);
+        out.writeFloat(startPos.z);
+
         out.writeInt(dispVertStart);
         out.writeInt(power);
         out.writeInt(minTess);

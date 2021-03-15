@@ -1,4 +1,4 @@
-package bsplib;
+package bspsrc;
 
 import org.apache.commons.io.*;
 import org.apache.commons.io.filefilter.*;

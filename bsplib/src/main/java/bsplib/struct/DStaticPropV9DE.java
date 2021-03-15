@@ -1,7 +1,7 @@
 package bsplib.struct;
 
 import bsplib.io.*;
-import bsplib.io.Seekable.*;
+import bsplib.io.DataBridge.*;
 import bsplib.util.*;
 import bsplib.vector.*;
 import java.io.*;

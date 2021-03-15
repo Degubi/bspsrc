@@ -1,10 +1,10 @@
-package bspsrc.cli;
+package bspsrc;
 
 import bsplib.app.*;
 import bsplib.log.*;
 import bsplib.modules.geom.*;
 import bsplib.util.*;
-import bspsrc.*;
+import bspsrc.cli.*;
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
@@ -12,14 +12,9 @@ import java.util.logging.*;
 import java.util.stream.*;
 import org.apache.commons.cli.*;
 
-/**
- * Helper class for CLI parsing and handling.
- *
- * @author Nico Bergemann <barracuda415 at yahoo.de>
- */
-public class BspSourceCli {
+public final class MainCLI {
 
-    private static final Logger L = LogUtils.getLogger();
+    private static final Logger L = Logger.getLogger("BSPSource CLI");
 
     private Option helpOpt, versionOpt, listappidsOpt, debugOpt, outputOpt, recursiveOpt, fileListOpt;
     private Options optsMain = new Options();
@@ -41,22 +36,18 @@ public class BspSourceCli {
 
     private MultiOptions optsAll = new MultiOptions();
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         LogUtils.configure();
 
         try {
-            BspSourceCli cli = new BspSourceCli();
+            MainCLI cli = new MainCLI();
             cli.run(args);
         } catch (Throwable t) {
-            // "Really bad!"
             L.log(Level.SEVERE, "Fatal BSPSource error", t);
         }
     }
 
-    public BspSourceCli() {
+    public MainCLI() {
         initOptions();
     }
 
@@ -169,7 +160,7 @@ public class BspSourceCli {
                 .addOptions(optsOther);
     }
 
-    private void run(String[] args) throws IOException, BspSourceCliParseException, ParseException {
+    private void run(String[] args) throws IOException, ParseException {
         if (args.length == 0) {
             printHelp();
             return;
@@ -182,10 +173,17 @@ public class BspSourceCli {
             printHelp();
             return;
         } else if (commandLine.hasOption(versionOpt.getOpt())) {
-            printVersion();
+            System.out.println("BSPSource " + BspSource.VERSION);
+            System.out.println();
+            System.out.println("Based on VMEX v0.98g by Rof <rof@mellish.org.uk>");
+            System.out.println("Extended and modified by Nico Bergemann <barracuda415@yahoo.de>");
             return;
         } else if (commandLine.hasOption(listappidsOpt.getOpt())) {
-            printAppIDs();
+            System.out.printf("%6s  %s\n", "ID", "Name");
+
+            for(var app : SourceAppDB.getInstance().getAppList()) {
+                System.out.printf("%6d  %s\n", app.getAppID(), app.getName());
+            }
             return;
         }
 
@@ -206,7 +204,7 @@ public class BspSourceCli {
         System.out.println("usage: bspsrc [options] <path> [path...]");
         System.out.println();
 
-        OptionHelpFormatter clHelp = new OptionHelpFormatter();
+        var clHelp = new OptionHelpFormatter();
         clHelp.printHelp("Main options:", optsMain);
         clHelp.printHelp("Entity options:", optsEntity);
         clHelp.printHelp("Entity mapping options:", optsEntityMapping);
@@ -216,31 +214,11 @@ public class BspSourceCli {
     }
 
     /**
-     * Prints application version, then exits the app.
-     */
-    private void printVersion() {
-        System.out.println("BSPSource " + BspSource.VERSION);
-        System.out.println();
-        System.out.println("Based on VMEX v0.98g by Rof <rof@mellish.org.uk>");
-        System.out.println("Extended and modified by Nico Bergemann <barracuda415@yahoo.de>");
-    }
-
-    private void printAppIDs() {
-        System.out.printf("%6s  %s\n", "ID", "Name");
-
-        List<SourceApp> apps = SourceAppDB.getInstance().getAppList();
-
-        for (SourceApp app : apps) {
-            System.out.printf("%6d  %s\n", app.getAppID(), app.getName());
-        }
-    }
-
-    /**
      * Parses an arguments command line and applies all settings to BSPSource.
      *
      * @param cl Command line arguments
      */
-    public BspSourceConfig getConfig(CommandLine cl) throws IOException, BspSourceCliParseException {
+    public BspSourceConfig getConfig(CommandLine cl) throws IOException {
         BspSourceConfig config = new BspSourceConfig();
 
         Set<BspFileEntry> files = new HashSet<>();
@@ -287,14 +265,14 @@ public class BspSourceCli {
             String modeStr = cl.getOptionValue(bmodeOpt.getOpt());
 
             config.brushMode = parseEnum(BrushMode.class, modeStr)
-                    .orElseThrow(() -> new BspSourceCliParseException("Invalid brush mode: " + modeStr));
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid brush mode: " + modeStr));
         }
 
         if (cl.hasOption(formatOpt.getOpt())) {
             String formatStr = cl.getOptionValue(formatOpt.getOpt());
 
             config.sourceFormat = parseEnum(SourceFormat.class, formatStr)
-                    .orElseThrow(() -> new BspSourceCliParseException("Invalid source format: " + formatStr));
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid source format: " + formatStr));
         }
 
         if (cl.hasOption(thicknOpt.getOpt())) {
@@ -302,7 +280,7 @@ public class BspSourceCli {
             try {
                 config.backfaceDepth = Float.parseFloat(thicknessStr);
             } catch (NumberFormatException e) {
-                throw new BspSourceCliParseException("Invalid thickness: " + thicknessStr);
+                throw new IllegalArgumentException("Invalid thickness: " + thicknessStr);
             }
         }
 
@@ -335,7 +313,7 @@ public class BspSourceCli {
                 int appid = Integer.parseInt(appidStr);
                 config.defaultApp = SourceAppDB.getInstance().fromID(appid);
             } catch (NumberFormatException e) {
-                throw new BspSourceCliParseException("Invalid App-ID: " + appidStr);
+                throw new IllegalArgumentException("Invalid App-ID: " + appidStr);
             }
         }
 

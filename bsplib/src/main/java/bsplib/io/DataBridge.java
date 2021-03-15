@@ -9,7 +9,11 @@ import java.nio.*;
  *
  * @author Nico Bergemann <barracuda415 at yahoo.de>
  */
-public abstract class DataBridge implements Seekable, Closeable, Swappable {
+public abstract class DataBridge implements Closeable, Swappable {
+
+    public static enum Origin {
+        BEGINNING, CURRENT, END
+    }
 
     protected final BufferedSource buf;
 
@@ -35,17 +39,14 @@ public abstract class DataBridge implements Seekable, Closeable, Swappable {
     // Positionable //
     //////////////////
 
-    @Override
     public long position() throws IOException {
         return buf.position();
     }
 
-    @Override
     public void position(long newPos) throws IOException {
         buf.position(newPos);
     }
 
-    @Override
     public long size() throws IOException {
         return buf.size();
     }
@@ -54,8 +55,7 @@ public abstract class DataBridge implements Seekable, Closeable, Swappable {
     // Seekable //
     //////////////
 
-    @Override
-    public void seek(long where, Seekable.Origin whence) throws IOException {
+    public void seek(long where, Origin whence) throws IOException {
         long pos = 0;
         switch (whence) {
             case BEGINNING:
@@ -73,17 +73,14 @@ public abstract class DataBridge implements Seekable, Closeable, Swappable {
         position(pos);
     }
 
-    @Override
     public long remaining() throws IOException {
         return size() - position();
     }
 
-    @Override
     public boolean hasRemaining() throws IOException {
         return remaining() > 0;
     }
 
-    @Override
     public void align(int align) throws IOException {
         if (align < 0) {
             throw new IllegalArgumentException();

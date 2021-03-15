@@ -1,97 +1,16 @@
 package bsplib.vector;
 
-import bsplib.io.*;
-import java.io.*;
-
-public class Vector2f extends VectorXf {
-
-	public static Vector2f read(DataReader in) throws IOException {
-		float x = in.readFloat();
-		float y = in.readFloat();
-		return new Vector2f(x, y);
-	}
-
-	public static void write(DataWriter out, Vector2f vec) throws IOException {
-		out.writeFloat(vec.x);
-		out.writeFloat(vec.y);
-	}
-
-	// frequently used pre-defined vectors
+public final class Vector2f {
 	public static final Vector2f NULL = new Vector2f(0, 0);
 	public static final Vector2f MAX_VALUE = new Vector2f(Float.MAX_VALUE, Float.MAX_VALUE);
-	public static final Vector2f MIN_VALUE = MAX_VALUE.scalar(-1); // don't use Float.MIN_VALUE here
+	public static final Vector2f MIN_VALUE = MAX_VALUE.scalar(-1);
 
-	// vector values
 	public final float x;
 	public final float y;
 
-	/**
-	 * Replicating contructor
-	 * Constructs new Vector2f by copying an existing Vector2f
-	 *
-	 * @param v The Vector2f to copy
-	 */
-	public Vector2f(Vector2f v) {
-		this(v.x, v.y);
-	}
-
-	/**
-	 * Constructs a new Vector3f using the values out of an array.
-	 * The array must have a size of at least 2.
-	 *
-	 * @param v float array
-	 */
-	public Vector2f(float[] v) {
-		this(v[0], v[1]);
-	}
-
-	/**
-	 * Constructs a new Vector2f from x and y components
-	 *
-	 * @param x the vector x component
-	 * @param y the vector y component
-	 */
 	public Vector2f(float x, float y) {
-		super(2);
 		this.x = x;
 		this.y = y;
-	}
-
-	/**
-	 * Returns the value of the n'th component.
-	 *
-	 * @param index component index
-	 * @return component value
-	 */
-	@Override
-	public float get(int index) {
-		switch (index) {
-			case 0:
-				return this.x;
-			case 1:
-				return this.y;
-			default:
-				return 0;
-		}
-	}
-
-	/**
-	 * Set the value of the n'th component.
-	 *
-	 * @param index component index
-	 * @param value new component value
-	 * @return vector with new value
-	 */
-	@Override
-	public Vector2f set(int index, float value) {
-		switch (index) {
-			case 0:
-				return new Vector2f(value, y);
-			case 1:
-				return new Vector2f(x, value);
-			default:
-				return this;
-		}
 	}
 
 	/**
@@ -110,11 +29,8 @@ public class Vector2f extends VectorXf {
 	 * @return the normalised vector
 	 */
 	public Vector2f normalize() {
-		float len = length();
-		float rx = x / len;
-		float ry = y / len;
-
-		return new Vector2f(rx, ry);
+		var len = length();
+		return new Vector2f(x / len, y / len);
 	}
 
 	/**
@@ -124,10 +40,7 @@ public class Vector2f extends VectorXf {
 	 * @return The sum of the two vectors
 	 */
 	public Vector2f add(Vector2f that) {
-		float rx = this.x + that.x;
-		float ry = this.y + that.y;
-
-		return new Vector2f(rx, ry);
+		return new Vector2f(this.x + that.x, this.y + that.y);
 	}
 
 	/**
@@ -137,10 +50,7 @@ public class Vector2f extends VectorXf {
 	 * @return The difference of the two vectors
 	 */
 	public Vector2f sub(Vector2f that) {
-		float rx = this.x - that.x;
-		float ry = this.y - that.y;
-
-		return new Vector2f(rx, ry);
+		return new Vector2f(this.x - that.x, this.y - that.y);
 	}
 
 	/**
@@ -150,10 +60,7 @@ public class Vector2f extends VectorXf {
 	 * @return This vector snapped to the nearest values of 'value'
 	 */
 	public Vector2f snap(float value) {
-		float rx = Math.round(x / value) * value;
-		float ry = Math.round(y / value) * value;
-
-		return new Vector2f(rx, ry);
+		return new Vector2f(Math.round(x / value) * value, Math.round(y / value) * value);
 	}
 
 	/**
@@ -172,10 +79,7 @@ public class Vector2f extends VectorXf {
 	 * @return scalar multiplied vector
 	 */
 	public Vector2f scalar(float mul) {
-		float rx = this.x * mul;
-		float ry = this.y * mul;
-
-		return new Vector2f(rx, ry);
+		return new Vector2f(this.x * mul, this.y * mul);
 	}
 
 	/**
@@ -185,10 +89,7 @@ public class Vector2f extends VectorXf {
 	 * @return scalar multiplied vector
 	 */
 	public Vector2f scalar(Vector2f that) {
-		float rx = this.x * that.x;
-		float ry = this.y * that.y;
-
-		return new Vector2f(rx, ry);
+		return new Vector2f(this.x * that.x, this.y * that.y);
 	}
 
 	/**
@@ -212,13 +113,11 @@ public class Vector2f extends VectorXf {
 			return new Vector2f(y, -x);
 
 		// convert degrees to radians
-		double radians = Math.toRadians(angle);
-
-		double r = Math.hypot(x, y);
-		double theta = Math.atan2(y, x);
-
-		double rx = r * Math.cos(theta + radians);
-		double ry = r * Math.sin(theta + radians);
+		var radians = Math.toRadians(angle);
+		var r = Math.hypot(x, y);
+		var theta = Math.atan2(y, x);
+		var rx = r * Math.cos(theta + radians);
+		var ry = r * Math.sin(theta + radians);
 
 		return new Vector2f((float) rx, (float) ry);
 	}
@@ -230,10 +129,7 @@ public class Vector2f extends VectorXf {
 	 * @return minima of this and that vector
 	 */
 	public Vector2f min(Vector2f that) {
-		float rx = Math.min(this.x, that.x);
-		float ry = Math.min(this.y, that.y);
-
-		return new Vector2f(rx, ry);
+		return new Vector2f(Math.min(this.x, that.x), Math.min(this.y, that.y));
 	}
 
 	/**
@@ -243,9 +139,6 @@ public class Vector2f extends VectorXf {
 	 * @return maxima of this and that vector
 	 */
 	public Vector2f max(Vector2f that) {
-		float rx = Math.max(this.x, that.x);
-		float ry = Math.max(this.y, that.y);
-
-		return new Vector2f(rx, ry);
+		return new Vector2f(Math.max(this.x, that.x), Math.max(this.y, that.y));
 	}
 }

@@ -1,6 +1,5 @@
 package bsplib.io.buffer.source;
 
-import bsplib.io.channel.*;
 import bsplib.log.*;
 import java.io.*;
 import java.nio.*;

@@ -3,13 +3,7 @@ package bspsrc.gui;
 import java.util.logging.*;
 import javax.swing.*;
 
-/**
- * Logging handler for two JTextAreas, one for normal messages and one for errors.
- *
- * @author Nico Bergemann <barracuda415 at yahoo.de>
- */
 public class TextAreaHandler extends Handler {
-
     private JTextArea out;
     private JTextArea err;
     private boolean doneHeader;
@@ -53,9 +47,7 @@ public class TextAreaHandler extends Handler {
     }
 
     @Override
-    public void flush() {
-        // not required
-    }
+    public void flush() {}
 
     @Override
     public void close() throws SecurityException {

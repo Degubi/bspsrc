@@ -16,7 +16,7 @@ public class EntityOutputStream extends PrintStream {
         super(out);
     }
 
-    public void writeEntity(Entity ent) throws IOException {
+    public void writeEntity(Entity ent) {
         print("{\n");
 
         for (Entry<String, String> kv : ent.getEntrySet()) {

@@ -15,7 +15,6 @@ module com.bsplib {
     exports bsplib.modules.geom;
     exports bsplib.modules.texture;
 
-    requires commons.cli;
     requires java.desktop;
     requires java.logging;
     requires org.apache.commons.compress;

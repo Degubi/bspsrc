@@ -8,15 +8,7 @@ import java.util.Map.*;
 import java.util.logging.*;
 import org.apache.commons.lang3.*;
 
-/**
- * Abstract entity representation that works roughly like in Hammer. Has two
- * KeyValue lists, one for normal, unique key-values and one for I/O that may
- * contain duplicates.
- *
- * @author Nico Bergemann <barracuda415 at yahoo.de>
- */
-public class Entity {
-
+public final class Entity {
     private static final Logger L = LogUtils.getLogger();
 
     private Map<String, String> keyValue = new LinkedHashMap<>();

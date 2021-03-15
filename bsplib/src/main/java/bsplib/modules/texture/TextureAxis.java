@@ -2,12 +2,7 @@ package bsplib.modules.texture;
 
 import bsplib.vector.*;
 
-/**
- * A data structure for UV texture coordinates.
- *
- * @author Nico Bergemann <barracuda415 at yahoo.de>
- */
-public class TextureAxis {
+public final class TextureAxis {
 
     public final Vector3f axis;
     public final float tw;
@@ -31,10 +26,5 @@ public class TextureAxis {
 
     public TextureAxis(float x, float y, float z) {
         this(x, y, z, 0, 0.25f);
-    }
-
-    @Override
-    public String toString() {
-        return axis + " " + shift + " [" + tw + "]";
     }
 }

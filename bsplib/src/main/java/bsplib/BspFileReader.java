@@ -5,7 +5,7 @@ import static bsplib.app.SourceAppID.*;
 import bsplib.app.*;
 import bsplib.entity.*;
 import bsplib.io.*;
-import bsplib.io.Seekable.*;
+import bsplib.io.DataBridge.*;
 import bsplib.log.*;
 import bsplib.lump.*;
 import bsplib.struct.*;
@@ -39,7 +39,7 @@ public class BspFileReader {
 
         if (bspFile.getFile() == null) {
             // "Gah! Hear me, man? Gah!"
-            throw new BspException("BSP file is unloaded");
+            throw new IOException("BSP file is unloaded");
         }
 
         // uncompress all lumps first
@@ -274,7 +274,7 @@ public class BspFileReader {
             if (appID == VINDICTUS && sprpver > 5) {
                 int scalingCount = in.readInt();
                 for (int i = 0; i < scalingCount; i++) {
-                    scaling.put(in.readInt(), Vector3f.read(in));
+                    scaling.put(in.readInt(), new Vector3f(in.readFloat(), in.readFloat(), in.readFloat()));
                 }
             }
 
@@ -598,9 +598,8 @@ public class BspFileReader {
 
         Lump lump = getLump(LumpType.LUMP_ENTITIES);
 
-        try (EntityInputStream entReader = new EntityInputStream(lump.getInputStream())) {
-            // allow escaped quotes for VTBM
-            entReader.setAllowEscSeq(bspFile.getVersion() == 17);
+        // allow escaped quotes for VTBM
+        try (EntityInputStream entReader = new EntityInputStream(lump.getInputStream(), bspFile.getVersion() == 17)) {
             bspData.entities = new ArrayList<>();
 
             entityClasses.clear();

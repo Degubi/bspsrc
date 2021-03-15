@@ -9,10 +9,6 @@ import java.util.*;
 import java.util.logging.*;
 import org.apache.commons.compress.archivers.zip.*;
 
-/**
- *
- * @author Nico Bergemann <barracuda415 at yahoo.de>
- */
 public class BspCompileParams extends ModuleRead {
 
     private static final Logger L = LogUtils.getLogger();

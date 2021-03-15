@@ -8,7 +8,7 @@ import java.nio.*;
  *
  * @author Nico Bergemann <barracuda415 at yahoo.de>
  */
-public interface BufferedSource extends Positionable, Swappable, Closeable {
+public interface BufferedSource extends Swappable, Closeable {
 
     /**
      * Returns the size of the buffer.
@@ -115,4 +115,28 @@ public interface BufferedSource extends Positionable, Swappable, Closeable {
      * @throws NonWritableSourceException if the source is not writable
      */
     public ByteBuffer requestWrite(int required) throws EOFException, IOException;
+
+    /**
+     * Sets a new absolute position.
+     *
+     * @param newPos The new position to set.
+     * @throws IOException
+     */
+    public void position(long newPos) throws IOException;
+
+    /**
+     * Obtain the current position.
+     *
+     * @return
+     * @throws IOException
+     */
+    public long position() throws IOException;
+
+    /**
+     * Returns the total size in bytes.
+     *
+     * @return
+     * @throws IOException
+     */
+    public long size() throws IOException;
 }

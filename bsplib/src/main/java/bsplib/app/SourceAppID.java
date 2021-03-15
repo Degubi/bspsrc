@@ -1,14 +1,6 @@
 package bsplib.app;
 
-/**
- * List of some application IDs that need special attention.
- *
- * @author Nico Bergemann <barracuda415 at yahoo.de>
- */
-public class SourceAppID {
-
-    private SourceAppID() {
-    }
+public final class SourceAppID {
 
     public static final int UNKNOWN = 0;
     public static final int VINDICTUS = -100;
@@ -29,4 +21,6 @@ public class SourceAppID {
     public static final int INSURGENCY = 222880;
     public static final int NO_MORE_ROOM_IN_HELL = 224260;
     public static final int BLACK_MESA = 362890;
+
+    private SourceAppID() {}
 }

@@ -3,22 +3,10 @@ package bsplib.vector;
 import bsplib.io.*;
 import java.io.*;
 
-/**
- * An immutable fluent interface three-dimensional vector class for float values.
- *
- * Original class name: unmap.Vec
- * Original author: Bob (Mellish?)
- * Original creation date: January 20, 2005, 7:41 PM
- *
- * @author Nico Bergemann <barracuda415 at yahoo.de>
- */
 public final class Vector3f extends VectorXf {
 
     public static Vector3f read(DataReader in) throws IOException {
-        float x = in.readFloat();
-        float y = in.readFloat();
-        float z = in.readFloat();
-        return new Vector3f(x, y, z);
+        return new Vector3f(in.readFloat(), in.readFloat(), in.readFloat());
     }
 
     public static void write(DataWriter out, Vector3f vec) throws IOException {
@@ -27,30 +15,17 @@ public final class Vector3f extends VectorXf {
         out.writeFloat(vec.z);
     }
 
-    // frequently used pre-defined vectors
     public static final Vector3f NULL = new Vector3f(0, 0, 0);
     public static final Vector3f MAX_VALUE = new Vector3f(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE);
-    public static final Vector3f MIN_VALUE = MAX_VALUE.scalar(-1); // don't use Float.MIN_VALUE here
+    public static final Vector3f MIN_VALUE = MAX_VALUE.scalar(-1);
 
-    // base unit vectors
     public static final Vector3f BASE_VECTOR_X = new Vector3f(1, 0, 0);
     public static final Vector3f BASE_VECTOR_Y = new Vector3f(0, 1, 0);
     public static final Vector3f BASE_VECTOR_Z = new Vector3f(0, 0, 1);
 
-    // vector values
     public final float x;
     public final float y;
     public final float z;
-
-    /**
-     * Replicating contructor
-     * Constructs new Vector3f by copying an existing Vector3f
-     *
-     * @param v The Vector3f to copy
-     */
-    public Vector3f(Vector3f v) {
-        this(v.x, v.y, v.z);
-    }
 
     /**
      * Constructs a new Vector3f using the values out of an array.
@@ -242,7 +217,6 @@ public final class Vector3f extends VectorXf {
      */
     public Vector3f rotate(Vector3f angles) {
         if (angles.x == 0 && angles.y == 0 && angles.z == 0) {
-            // nothing to do here
             return this;
         }
 

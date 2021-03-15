@@ -1,28 +1,22 @@
-package bsplib.log;
+package bspinfo.log;
 
 import java.awt.*;
 import java.util.logging.*;
 import javax.swing.*;
 
-/**
- * Log handler for dialog messages.
- *
- * @author Nico Bergemann <barracuda415 at yahoo.de>
- */
-public class DialogHandler extends Handler {
+public final class DialogHandler extends Handler {
 
     private final Component parentComponent;
 
     public DialogHandler(Component parentComponent) {
         this.parentComponent = parentComponent;
         setFormatter(new DialogFormatter());
-        // don't spam dialog messages
         setLevel(Level.WARNING);
     }
 
     @Override
     public void publish(LogRecord record) {
-        if (record.getLevel().intValue() < getLevel().intValue()) {
+        if(record.getLevel().intValue() < getLevel().intValue()) {
             return;
         }
 
@@ -52,11 +46,8 @@ public class DialogHandler extends Handler {
     }
 
     @Override
-    public void flush() {
-    }
+    public void flush() {}
 
     @Override
-    public void close() throws SecurityException {
-    }
-
+    public void close() throws SecurityException {}
 }
