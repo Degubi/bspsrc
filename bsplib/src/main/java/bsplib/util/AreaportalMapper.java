@@ -1,5 +1,6 @@
 package bsplib.util;
 
+import bsplib.decompile.*;
 import bsplib.entity.*;
 import bsplib.log.*;
 import bsplib.modules.*;
@@ -20,13 +21,13 @@ public class AreaportalMapper {
 
     private static final Logger L = LogUtils.getLogger();
 
-    private BspSourceConfig config;
+    private DecompileConfig config;
     private BspData bsp;
 
     private ArrayList<AreaportalHelper> areaportalHelpers = new ArrayList<>();
     private ArrayList<DBrush> areaportalBrushes = new ArrayList<>();
 
-    public AreaportalMapper(BspData bsp, BspSourceConfig config) {
+    public AreaportalMapper(BspData bsp, DecompileConfig config) {
         this.bsp = bsp;
         this.config = config;
 

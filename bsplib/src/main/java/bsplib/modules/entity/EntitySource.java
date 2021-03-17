@@ -2,6 +2,7 @@ package bsplib.modules.entity;
 
 import bsplib.*;
 import bsplib.app.*;
+import bsplib.decompile.*;
 import bsplib.entity.*;
 import bsplib.log.*;
 import bsplib.modules.*;
@@ -11,7 +12,6 @@ import bsplib.nmo.*;
 import bsplib.struct.*;
 import bsplib.util.*;
 import bsplib.vector.*;
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 import java.util.Queue;
@@ -34,7 +34,7 @@ public class EntitySource extends ModuleDecompile {
     private static final Pattern INSTANCE_PREFIX = Pattern.compile("^([^-]+)-");
 
     // sub-modules
-    private final BspSourceConfig config;
+    private final DecompileConfig config;
     private final BrushSource brushsrc;
     private final FaceSource facesrc;
     private final TextureSource texsrc;
@@ -55,7 +55,7 @@ public class EntitySource extends ModuleDecompile {
     // overlay target names
     private final Map<Integer, String> overlayNames = new HashMap<>();
 
-    public EntitySource(BspFileReader reader, VmfWriter writer, BspSourceConfig config,
+    public EntitySource(BspFileReader reader, VmfWriter writer, DecompileConfig config,
             BrushSource brushsrc, FaceSource facesrc, TextureSource texsrc,
             BspProtection bspprot, VmfMeta vmfmeta) {
         super(reader, writer);
@@ -439,7 +439,7 @@ public class EntitySource extends ModuleDecompile {
                 DBrush brush = bsp.brushes.get(i);
 
                 // skip non-detail/non-solid brushes
-                if (!brush.isFuncDetail(bspFile.getSourceApp().getAppID())) {
+                if (!brush.isFuncDetail(bspFile.getSourceApp().appID)) {
                     continue;
                 }
 
@@ -966,7 +966,7 @@ public class EntitySource extends ModuleDecompile {
 
             // replace escaped quotes for VTMB so they can be loaded with the
             // inofficial SDK Hammer
-            if (bspFile.getSourceApp().getAppID() == SourceAppID.VAMPIRE_BLOODLINES) {
+            if (bspFile.getSourceApp().appID == SourceAppID.VAMPIRE_BLOODLINES) {
                 for (Map.Entry<String, String> kv : ent.getEntrySet()) {
                     String value = kv.getValue();
                     value = value.replace("\\\"", "");

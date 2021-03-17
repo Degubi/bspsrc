@@ -1,4 +1,4 @@
-package bsplib.io.util;
+package bsplib.util;
 
 import java.nio.*;
 
@@ -8,8 +8,6 @@ import java.nio.*;
  * @author Nico Bergemann <barracuda415 at yahoo.de>
  */
 public class XORUtils {
-
-    private static int BUFFER_SIZE = 4096;
 
     private XORUtils() {
     }
@@ -37,7 +35,7 @@ public class XORUtils {
     }
 
     public static void xor(ByteBuffer bb, byte[] key) {
-        int bufSize = BUFFER_SIZE;
+        int bufSize = 4096;
         bufSize -= bufSize % key.length;
         byte[] buf = new byte[bufSize];
         int len = buf.length;

@@ -1,12 +1,12 @@
-package bspsrc.gui;
+package bspsrc.components;
 
 import java.util.logging.*;
 import javax.swing.*;
 
-public class TextAreaHandler extends Handler {
-    private JTextArea out;
-    private JTextArea err;
-    private boolean doneHeader;
+public final class TextAreaHandler extends Handler {
+    private final JTextArea out;
+    private final JTextArea err;
+    private boolean headerPrinted;
 
     public TextAreaHandler(JTextArea out, JTextArea err) {
         this.out = out;
@@ -14,11 +14,11 @@ public class TextAreaHandler extends Handler {
     }
 
     private void doHeaders() {
-        if (!doneHeader) {
-            String head = getFormatter().getHead(this);
+        if(!headerPrinted) {
+            var head = getFormatter().getHead(this);
             out.append(head);
             err.append(head);
-            doneHeader = true;
+            headerPrinted = true;
         }
     }
 
@@ -39,7 +39,6 @@ public class TextAreaHandler extends Handler {
             }
 
             out.append(msg);
-            // make sure the last line is always visible
             out.setCaretPosition(out.getDocument().getLength());
         } catch (Exception ex) {
             reportError(null, ex, ErrorManager.WRITE_FAILURE);

@@ -13,7 +13,7 @@ import org.xml.sax.helpers.*;
  *
  * @author Nico Bergemann <barracuda415 at yahoo.de>
  */
-public class SourceAppHandler extends DefaultHandler {
+class SourceAppHandler extends DefaultHandler {
 
     private static final Logger L = LogUtils.getLogger();
 
@@ -42,7 +42,7 @@ public class SourceAppHandler extends DefaultHandler {
             } else if (id == null) {
                 L.warning("Ignoring app with missing attribute \"id\"");
             } else {
-                currentApp = new SourceApp(name, Integer.valueOf(id));
+                currentApp = new SourceApp(name, Integer.parseInt(id));
             }
         }
 
@@ -55,24 +55,24 @@ public class SourceAppHandler extends DefaultHandler {
                 String minVers = attributes.getValue("min");
                 String maxVers = attributes.getValue("max");
                 if (minVers != null) {
-                    currentApp.setVersionMin(Integer.valueOf(minVers));
+                    currentApp.setVersionMin(Integer.parseInt(minVers));
                 }
                 if (maxVers != null) {
-                    currentApp.setVersionMax(Integer.valueOf(maxVers));
+                    currentApp.setVersionMax(Integer.parseInt(maxVers));
                 }
                 break;
 
             case "entities":
                 String pointsEntities = attributes.getValue("points");
                 if (pointsEntities != null) {
-                    currentApp.setPointsEntities(Float.valueOf(pointsEntities));
+                    currentApp.setPointsEntities(Float.parseFloat(pointsEntities));
                 }
                 break;
 
             case "files":
                 String pointsFiles = attributes.getValue("points");
                 if (pointsFiles != null) {
-                    currentApp.setPointsFilePattern(Float.valueOf(pointsFiles));
+                    currentApp.setPointsFilePattern(Float.parseFloat(pointsFiles));
                 }
                 break;
         }

@@ -6,7 +6,6 @@ import bsplib.app.*;
 import bsplib.io.*;
 import bsplib.io.DataBridge.*;
 import bsplib.io.buffer.*;
-import bsplib.io.util.*;
 import bsplib.log.*;
 import bsplib.lump.*;
 import bsplib.util.*;
@@ -111,11 +110,11 @@ public final class BspFile {
         }
 
         // extra int for Contagion
-        if (app.getAppID() == CONTAGION) {
+        if (app.appID == CONTAGION) {
             bb.getInt(); // always 0?
         }
 
-        if (app.getAppID() == TITANFALL) {
+        if (app.appID == TITANFALL) {
             mapRev = bb.getInt();
             L.log(Level.FINER, "Map revision: {0}", mapRev);
 
@@ -125,7 +124,7 @@ public final class BspFile {
         loadLumps(bb);
         loadGameLumps();
 
-        if (app.getAppID() == TITANFALL) {
+        if (app.appID == TITANFALL) {
             loadTitanfallLumpFiles();
             loadTitanfallEntityFiles();
         } else {
@@ -256,7 +255,7 @@ public final class BspFile {
         int numLumps;
 
         // Titanfall has more lumps
-        if (app.getAppID() == TITANFALL) {
+        if (app.appID == TITANFALL) {
             numLumps = HEADER_LUMPS_TF;
         } else {
             numLumps = HEADER_LUMPS;
@@ -266,7 +265,7 @@ public final class BspFile {
             int vers, ofs, len, fourCC;
 
             // L4D2 maps use a different order
-            if (app.getAppID() == LEFT_4_DEAD_2) {
+            if (app.appID == LEFT_4_DEAD_2) {
                 vers = bb.getInt();
                 ofs = bb.getInt();
                 len = bb.getInt();
@@ -329,7 +328,7 @@ public final class BspFile {
 
         for (Lump lump : lumps) {
             // write header
-            if (app.getAppID() == LEFT_4_DEAD_2) {
+            if (app.appID == LEFT_4_DEAD_2) {
                 bb.putInt(lump.getVersion());
                 bb.putInt(lump.getOffset());
                 bb.putInt(lump.getLength());
@@ -483,14 +482,14 @@ public final class BspFile {
             for (int i = 0; i < glumps; i++) {
                 int ofs, len, flags, vers, fourCC;
 
-                if (app.getAppID() == DARK_MESSIAH) {
+                if (app.appID == DARK_MESSIAH) {
                     in.readInt(); // unknown
                 }
 
                 fourCC = in.readInt();
 
                 // Vindictus uses integers rather than unsigned shorts
-                if (app.getAppID() == VINDICTUS) {
+                if (app.appID == VINDICTUS) {
                     flags = in.readInt();
                     vers = in.readInt();
                 } else {
@@ -577,7 +576,7 @@ public final class BspFile {
 
         // lumpCount + dgamelump_t[lumpCount]
         int headerSize = 4;
-        if (app.getAppID() == VINDICTUS) {
+        if (app.appID == VINDICTUS) {
             headerSize += 20 * gameLumps.size();
         } else {
             headerSize += 16 * gameLumps.size();
@@ -605,7 +604,7 @@ public final class BspFile {
 
                 // write header
                 out.writeInt(gl.getFourCC());
-                if (app.getAppID() == VINDICTUS) {
+                if (app.appID == VINDICTUS) {
                     out.writeInt(gl.getFlags());
                     out.writeInt(gl.getVersion());
                 } else {
@@ -659,7 +658,7 @@ public final class BspFile {
 
         for (int i = 0; i < glumps; i++) {
             int index;
-            if (app.getAppID() == VINDICTUS) {
+            if (app.appID == VINDICTUS) {
                 index = 20 * i + 16;
             } else {
                 index = 16 * i + 12;

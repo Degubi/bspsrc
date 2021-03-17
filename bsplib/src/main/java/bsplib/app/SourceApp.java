@@ -10,8 +10,8 @@ public final class SourceApp {
     private static final Logger L = LogUtils.getLogger();
     public static final SourceApp UNKNOWN = new SourceApp("Unknown", SourceAppID.UNKNOWN);
 
-    private final String name;
-    private final int appID;
+    public final String name;
+    public final int appID;
     private int versionMin = -1;
     private int versionMax = -1;
     private String filePattern;
@@ -25,10 +25,6 @@ public final class SourceApp {
         this.appID = appID;
     }
 
-    float getPointsEntities() {
-        return pointsEntities;
-    }
-
     void setPointsEntities(float pointsEntities) {
         this.pointsEntities = pointsEntities;
     }
@@ -39,14 +35,6 @@ public final class SourceApp {
 
     void setPointsFilePattern(float pointsFilePattern) {
         this.pointsFilePattern = pointsFilePattern;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getAppID() {
-        return appID;
     }
 
     public URI getSteamStoreURI() {

@@ -1,12 +1,7 @@
-package bspsrc.gui;
+package bspsrc.components;
 
 import bsplib.modules.texture.*;
 
-/**
- * Enumeration for some tool textures.
- *
- * @author Nico Bergemann <barracuda415 at yahoo.de>
- */
 public enum EnumToolTexture {
 
     DEFAULT("Default", ""),

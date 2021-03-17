@@ -35,7 +35,7 @@ public class BspFileReader {
     public BspFileReader(BspFile bspFile, BspData bspData) throws IOException {
         this.bspFile = bspFile;
         this.bspData = bspData;
-        this.appID = bspFile.getSourceApp().getAppID();
+        this.appID = bspFile.getSourceApp().appID;
 
         if (bspFile.getFile() == null) {
             // "Gah! Hear me, man? Gah!"
@@ -615,7 +615,7 @@ public class BspFileReader {
                 SourceAppDB appDB = SourceAppDB.getInstance();
                 SourceApp app = appDB.find(bspFile.getName(), bspFile.getVersion(), entityClasses);
                 bspFile.setSourceApp(app);
-                appID = app.getAppID();
+                appID = app.appID;
             }
         } catch (IOException ex) {
             L.log(Level.SEVERE, "Couldn''t read entity lump", ex);
@@ -735,7 +735,7 @@ public class BspFileReader {
 
                 // Contagion maps report lump version 0, but they're actually
                 // using 1
-                if (bspFile.getSourceApp().getAppID() == SourceAppID.CONTAGION) {
+                if (bspFile.getSourceApp().appID == SourceAppID.CONTAGION) {
                     lumpVersion = 1;
                 }
 

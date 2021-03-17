@@ -197,8 +197,8 @@ public final class Main {
 
                 var app = bspFile.getSourceApp();
 
-                textFieldAppID.setText(app.getAppID() > 0 ? String.valueOf(app.getAppID()) : "n/a");
-                textFieldGame.setText(app.getName());
+                textFieldAppID.setText(app.appID > 0 ? String.valueOf(app.appID) : "n/a");
+                textFieldGame.setText(app.name);
 
                 var steamStoreURI = app.getSteamStoreURI();
                 if (steamStoreURI != null) {

@@ -1,19 +1,14 @@
-package bsplib.util;
+package bsplib.decompile;
 
 import bsplib.app.*;
 import bsplib.log.*;
 import bsplib.modules.geom.*;
-import java.io.*;
+import bsplib.util.*;
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.logging.*;
 
-/**
- * Configuration class for BSPSource and its modules.
- *
- * @author Nico Bergemann <barracuda415 at yahoo.de>
- */
-public final class BspSourceConfig implements Serializable {
+public final class DecompileConfig {
 
     // logger
     private static final Logger L = LogUtils.getLogger();
@@ -54,6 +49,10 @@ public final class BspSourceConfig implements Serializable {
 
     private boolean debug = false;
     private Set<BspFileEntry> files = new HashSet<>();
+
+    public DecompileConfig() {
+
+    }
 
     private void updateLogger(boolean debug) {
         LogUtils.configure(debug ? Level.ALL : Level.INFO);

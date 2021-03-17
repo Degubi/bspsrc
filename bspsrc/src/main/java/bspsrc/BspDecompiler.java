@@ -2,6 +2,7 @@ package bspsrc;
 
 import bsplib.*;
 import bsplib.app.*;
+import bsplib.decompile.*;
 import bsplib.log.*;
 import bsplib.modules.*;
 import bsplib.modules.entity.*;
@@ -9,21 +10,15 @@ import bsplib.modules.geom.*;
 import bsplib.modules.texture.*;
 import bsplib.nmo.*;
 import bsplib.util.*;
-import java.util.*;
 import java.util.logging.*;
 
-/**
- * Main decompiling module.
- *
- * @author Nico Bergemann <barracuda415 at yahoo.de>
- */
 public class BspDecompiler extends ModuleDecompile {
 
     // logger
     private static final Logger L = LogUtils.getLogger();
 
     // sub-modules
-    private final BspSourceConfig config;
+    private final DecompileConfig config;
     private final TextureSource texsrc;
     private final BrushSource brushsrc;
     private final FaceSource facesrc;
@@ -31,7 +26,7 @@ public class BspDecompiler extends ModuleDecompile {
     private final BspProtection bspprot;
     private final VmfMeta vmfmeta;
 
-    public BspDecompiler(BspFileReader reader, VmfWriter writer, BspSourceConfig config) {
+    public BspDecompiler(BspFileReader reader, VmfWriter writer, DecompileConfig config) {
         super(reader, writer);
 
         WindingFactory.clearCache();
@@ -43,8 +38,7 @@ public class BspDecompiler extends ModuleDecompile {
         vmfmeta = new VmfMeta(reader, writer);
         brushsrc = new BrushSource(reader, writer, config, texsrc, bspprot, vmfmeta);
         facesrc = new FaceSource(reader, writer, config, texsrc, vmfmeta);
-        entsrc = new EntitySource(reader, writer, config, brushsrc, facesrc,
-                texsrc, bspprot, vmfmeta);
+        entsrc = new EntitySource(reader, writer, config, brushsrc, facesrc, texsrc, bspprot, vmfmeta);
     }
 
     /**
@@ -56,19 +50,24 @@ public class BspDecompiler extends ModuleDecompile {
 
         // VTBM has too many crucial game-specific tool textures that would break,
         // so override the user selection
-        if (bspFile.getSourceApp().getAppID() == SourceAppID.VAMPIRE_BLOODLINES) {
+        if (bspFile.getSourceApp().appID == SourceAppID.VAMPIRE_BLOODLINES) {
             texsrc.setFixToolTextures(false);
         } else {
             texsrc.setFixToolTextures(config.fixToolTextures);
         }
 
         // check for protection and warn if the map has been protected
-        if (!config.skipProt) {
-            checkProtection();
+        if (!config.skipProt && bspprot.check()) {
+            L.log(Level.WARNING, "{0} contains anti-decompiling flags or is obfuscated!", reader.getBspFile().getName());
+            L.log(Level.WARNING, "Detected methods:");
+
+            for(var method : bspprot.getProtectionMethods()) {
+                L.warning(method);
+            }
         }
 
         // set comment
-        vmfmeta.appendComment("Decompiled by BSPSource v" + BspSource.VERSION + " from " + bspFile.getName());
+        vmfmeta.appendComment("Decompiled by BSPSource v" + Main.VERSION + " from " + bspFile.getName());
 
         // start worldspawn
         vmfmeta.writeWorldHeader();
@@ -94,21 +93,6 @@ public class BspDecompiler extends ModuleDecompile {
         // write cameras
         if (config.writeCameras) {
             vmfmeta.writeCameras();
-        }
-    }
-
-    private void checkProtection() {
-        if (!bspprot.check()) {
-            return;
-        }
-
-        L.log(Level.WARNING, "{0} contains anti-decompiling flags or is obfuscated!", reader.getBspFile().getName());
-        L.log(Level.WARNING, "Detected methods:");
-
-        List<String> methods = bspprot.getProtectionMethods();
-
-        for (String method : methods) {
-            L.warning(method);
         }
     }
 
@@ -146,8 +130,7 @@ public class BspDecompiler extends ModuleDecompile {
             entsrc.writeEntities();
         }
 
-        if (config.writeBrushEntities && config.writeDetails
-                && config.brushMode == BrushMode.BRUSHPLANES) {
+        if (config.writeBrushEntities && config.writeDetails && config.brushMode == BrushMode.BRUSHPLANES) {
             entsrc.writeDetails();
         }
 
@@ -164,8 +147,8 @@ public class BspDecompiler extends ModuleDecompile {
                 entsrc.writeCubemaps();
             }
 
-            // Only write func_ladder if game is not csgo. Cso doesn't use the func_ladder entity
-            if (config.writeLadders && bspFile.getSourceApp().getAppID() != SourceAppID.COUNTER_STRIKE_GO) {
+            // Only write func_ladder if game is not csgo. Csgo doesn't use the func_ladder entity
+            if (config.writeLadders && bspFile.getSourceApp().appID != SourceAppID.COUNTER_STRIKE_GO) {
                 entsrc.writeLadders();
             }
         }

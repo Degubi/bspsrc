@@ -133,7 +133,7 @@ public class TextureSource extends ModuleRead {
     }
 
     public TextureBuilder getTextureBuilder() {
-        return new TextureBuilder(this, bsp, bspFile.getSourceApp().getAppID());
+        return new TextureBuilder(this, bsp, bspFile.getSourceApp().appID);
     }
 
     public void addBrushSideID(int itexname, int side) {

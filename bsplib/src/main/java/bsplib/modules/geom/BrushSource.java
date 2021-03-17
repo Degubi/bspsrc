@@ -2,6 +2,7 @@ package bsplib.modules.geom;
 
 import bsplib.*;
 import bsplib.app.*;
+import bsplib.decompile.*;
 import bsplib.log.*;
 import bsplib.modules.*;
 import bsplib.modules.texture.*;
@@ -24,7 +25,7 @@ public class BrushSource extends ModuleDecompile {
     private static final Logger L = LogUtils.getLogger();
 
     // sub-modules
-    private final BspSourceConfig config;
+    private final DecompileConfig config;
     private final TextureSource texsrc;
     private final BspProtection bspprot;
     private final VmfMeta vmfmeta;
@@ -39,7 +40,7 @@ public class BrushSource extends ModuleDecompile {
     private Map<Integer, Integer> brushSideToID = new HashMap<>();
     private Map<Integer, Integer> brushIndexToID = new HashMap<>();
 
-    public BrushSource(BspFileReader reader, VmfWriter writer, BspSourceConfig config,
+    public BrushSource(BspFileReader reader, VmfWriter writer, DecompileConfig config,
             TextureSource texsrc, BspProtection bspprot, VmfMeta vmfmeta) {
         super(reader, writer);
         this.config = config;
@@ -128,7 +129,7 @@ public class BrushSource extends ModuleDecompile {
             DBrush brush = bsp.brushes.get(i);
 
             // skip details
-            if (config.writeDetails && brush.isFuncDetail(bspFile.getSourceApp().getAppID())) {
+            if (config.writeDetails && brush.isFuncDetail(bspFile.getSourceApp().appID)) {
                 continue;
             }
 
@@ -140,7 +141,7 @@ public class BrushSource extends ModuleDecompile {
             // only skip ladders if game not csgo
             // csgo handles ladders as normal brushes, so we don't need to skip them here
             if (config.writeLadders && brush.isLadder()
-                    && bspFile.getSourceApp().getAppID() != SourceAppID.COUNTER_STRIKE_GO) {
+                    && bspFile.getSourceApp().appID != SourceAppID.COUNTER_STRIKE_GO) {
                 continue;
             }
 

@@ -4,6 +4,7 @@ module com.bsplib {
     exports bsplib;
     exports bsplib.app;
     exports bsplib.entity;
+    exports bsplib.decompile;
     exports bsplib.nmo;
     exports bsplib.lump;
     exports bsplib.vector;
@@ -15,8 +16,9 @@ module com.bsplib {
     exports bsplib.modules.geom;
     exports bsplib.modules.texture;
 
-    requires java.desktop;
     requires java.logging;
+    requires java.xml;
+
     requires org.apache.commons.compress;
     requires org.apache.commons.io;
     requires org.apache.commons.lang3;

@@ -1,5 +1,6 @@
 package bsplib.util;
 
+import bsplib.decompile.*;
 import bsplib.log.*;
 import bsplib.struct.*;
 import java.util.*;
@@ -14,7 +15,7 @@ public class OccluderMapper {
 
     private static final Logger L = LogUtils.getLogger();
 
-    private BspSourceConfig config;
+    private DecompileConfig config;
     private BspData bsp;
 
     /**
@@ -35,7 +36,7 @@ public class OccluderMapper {
     private static final Predicate<DTexInfo> matchesOccluderTexInfo = dTexInfo -> dTexInfo.flags.equals(EnumSet.of(SurfaceFlag.SURF_NOLIGHT)) || dTexInfo.flags.equals(EnumSet.of(SurfaceFlag.SURF_TRIGGER, SurfaceFlag.SURF_NOLIGHT));
 
 
-    public OccluderMapper(BspData bsp, BspSourceConfig config) {
+    public OccluderMapper(BspData bsp, DecompileConfig config) {
         this.config = config;
         this.bsp = bsp;
 

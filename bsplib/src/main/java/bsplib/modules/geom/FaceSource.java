@@ -1,6 +1,7 @@
 package bsplib.modules.geom;
 
 import bsplib.*;
+import bsplib.decompile.*;
 import bsplib.log.*;
 import bsplib.modules.*;
 import bsplib.modules.texture.*;
@@ -29,7 +30,7 @@ public class FaceSource extends ModuleDecompile {
     private static final float AREA_EPS = 1.0f;
 
     // sub-modules
-    private final BspSourceConfig config;
+    private final DecompileConfig config;
     private final TextureSource texsrc;
     private final VmfMeta vmfmeta;
 
@@ -42,7 +43,7 @@ public class FaceSource extends ModuleDecompile {
     // current offset in multiblend lump
     private int multiblendOffset;
 
-    public FaceSource(BspFileReader reader, VmfWriter writer, BspSourceConfig config,
+    public FaceSource(BspFileReader reader, VmfWriter writer, DecompileConfig config,
             TextureSource texsrc, VmfMeta vmfmeta) {
         super(reader, writer);
 

@@ -1,4 +1,4 @@
-package bspsrc.gui;
+package bspsrc.components;
 
 import java.awt.*;
 import java.awt.datatransfer.*;

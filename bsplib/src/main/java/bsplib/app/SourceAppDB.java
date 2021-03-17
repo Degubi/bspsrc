@@ -33,7 +33,7 @@ public final class SourceAppDB {
 
             // generate ID map for validation and faster access
             for (SourceApp app : appList) {
-                Integer appID = app.getAppID();
+                Integer appID = app.appID;
 
                 // warn if we have more than one app for an ID
                 if (appMap.containsKey(appID)) {
@@ -86,7 +86,7 @@ public final class SourceAppDB {
                 continue;
             }
 
-            L.log(Level.FINER, "Testing {0}", app.getName());
+            L.log(Level.FINER, "Testing {0}", app.name);
 
             float scoreNew = 0;
 
@@ -101,7 +101,7 @@ public final class SourceAppDB {
             }
 
             if (scoreNew != 0 && scoreNew > score) {
-                L.log(Level.FINER, "New candidate {0} with a score of {1}", new Object[]{app.getName(), scoreNew});
+                L.log(Level.FINER, "New candidate {0} with a score of {1}", new Object[]{ app.name, scoreNew });
                 candidate = app;
                 score = scoreNew;
             }

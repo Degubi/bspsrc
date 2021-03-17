@@ -5,7 +5,6 @@ import bsplib.entity.*;
 import bsplib.log.*;
 import bsplib.modules.entity.*;
 import bsplib.util.*;
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 import java.util.logging.*;
